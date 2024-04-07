@@ -11,7 +11,7 @@ export const uploadFile = async (request: Request, response: Response) => {
     const newFile = await File.create(fileObj);
     await newFile.save();
     return response.status(200).json({
-      path: `${process.env.CLIENT_URL}/file/${newFile._id}`,
+      path: `${process.env.DOWNLOAD_URL}/file/${newFile._id}`,
       name: newFile.name,
     });
   } catch (error: any) {
@@ -22,7 +22,6 @@ export const uploadFile = async (request: Request, response: Response) => {
 
 export const downloadFile = async (request: Request, response: Response) => {
   const id = request.params.fileId;
-  console.log(id);
   try {
     const file = await File.findById(id);
 

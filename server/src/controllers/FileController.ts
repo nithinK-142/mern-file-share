@@ -11,7 +11,7 @@ export const uploadFile = async (request: Request, response: Response) => {
     const newFile = await File.create(fileObj);
     await newFile.save();
     return response.status(200).json({
-      path: `${process.env.URL}/file/${newFile._id}`,
+      path: `${process.env.CLIENT_URL}/file/${newFile._id}`,
       name: newFile.name,
     });
   } catch (error: any) {

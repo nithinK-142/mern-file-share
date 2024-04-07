@@ -1,5 +1,7 @@
 import express from "express";
 import cors from "cors";
+import router from "./routes/routes";
+import DBConnection from "./database/database";
 import { config } from "dotenv";
 
 config();
@@ -16,7 +18,9 @@ app.use(
   })
 );
 
-app.use("/", () => console.log("SERVER STARTED"));
+app.use("/", router);
+
+DBConnection();
 
 app.listen(PORT, () => console.log("SERVER STARTED"));
 

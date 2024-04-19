@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { uploadFile } from "./api/uploadFile";
+import { saveAs } from "file-saver";
 
 function App() {
   const [files, setFiles] = useState<File[]>([]);
@@ -65,6 +66,17 @@ function App() {
   const formatName = (name: string): string => {
     return name.length > 10 ? name.substring(0, 10) + "..." : name;
   };
+
+  const handleDownload = async (url: string, name: string) => {
+    try {
+      // const response = await fetch(url);
+      // const blob = await response.blob();
+      saveAs(url, name);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
+
   return (
     <main className="flex flex-col items-center mt-10 text-center poppins-regular">
       <h1 className="text-2xl font-semibold tracking-widest opacity-80 poppins-medium">
@@ -91,18 +103,18 @@ function App() {
         </div>
       ) : (
         <ul className="flex flex-col mt-20 space-y-4 w-[24rem]">
-          {results.map((result, index) => (
+          {results.map(({ name, link }, index) => (
             <li
               key={index}
               className="flex items-center justify-between space-x-2"
             >
-              <span> {formatName(result.name)} </span>
-              <a href={result.link} target="_blank" rel="noopener noreferrer">
+              <span> {formatName(name)} </span>
+              <button onClick={() => handleDownload(link, name)}>
                 Download
-              </a>
+              </button>
               <span
                 className="underline cursor-pointer"
-                onClick={() => copyToClipboard(result.link)}
+                onClick={() => copyToClipboard(link)}
               >
                 Copy
               </span>

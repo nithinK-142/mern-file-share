@@ -12,7 +12,8 @@ export async function uploadFile(data: FormData) {
       }
     );
     return response.data;
-  } catch (error) {
-    throw new Error("failed to fetch!!");
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw new Error(error.message);
   }
 }

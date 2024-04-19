@@ -1,11 +1,11 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const fileSchema = new mongoose.Schema({
+const fileSchema = new Schema({
   path: { type: String, required: true },
   name: { type: String, required: true },
   downloadCount: { type: Number, required: true, default: 0 },
 });
 
-const File = mongoose.model("file", fileSchema);
+const FileModel = model("file", fileSchema);
 
-export default File;
+export default FileModel;

@@ -1,27 +1,19 @@
 import express from "express";
 import cors from "cors";
 import router from "./routes/routes";
-import DBConnection from "./database/database";
-import { config } from "dotenv";
-
-config();
+import dbConnect from "./database/config";
+import { CLIENT_URL, PORT } from "./constants";
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
+app.use(cors({ origin: CLIENT_URL, methods: ["POST", "GET"] }));
 
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL,
-    methods: ["POST", "GET"],
+dbConnect()
+  .then(() => {
+    app.listen(PORT, () => console.log("⚙️ Server started", PORT));
+    app.use("/", router);
   })
-);
-
-app.use("/", router);
-
-DBConnection();
-
-app.listen(PORT, () => console.log("SERVER STARTED"));
+  .catch((err) => console.log("❌ERROR ", err.message));
 
 export default app;
